@@ -192,14 +192,12 @@ fun HomeScreen(
                             .height(140.dp)
                     )
                     Text(
-//                text = currentWeather.weather[0].main,
                         text = currentWeather.weather[0].main,
                         color = Color.Black,
                         modifier = Modifier.padding(top = 15.dp),
                         fontSize = 20.sp,
                     )
                     Text(
-//                text = currentWeather.main.temp.toDegrees(),
                         text = currentWeather.main.temp.toDegrees(),
                         color = Color.Black,
                         modifier = Modifier.padding(5.dp),
@@ -238,6 +236,20 @@ fun HomeScreen(
                             color = Color.Black,
                             modifier = Modifier.padding(5.dp),
                             fontSize = 16.sp,
+                        )
+                        Spacer(modifier = Modifier.width(15.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_temperature),
+                            contentDescription = "Temperature Icon",
+                            modifier = Modifier
+                                .width(20.dp)
+                                .height(20.dp)
+                        )
+                        Text(
+                            text = "Feels Like ${currentWeather.main.feels_like}°c",
+                            color = Color.Black,
+                            modifier = Modifier.padding(5.dp),
+                            fontSize = 15.sp,
                         )
                     }
                     Spacer(modifier = Modifier.height(18.dp))

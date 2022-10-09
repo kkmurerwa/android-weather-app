@@ -11,15 +11,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.murerwa.murerwaweather.R
+import com.murerwa.murerwaweather.domain.models.forecast.WeatherForecast
+import com.murerwa.murerwaweather.presentation.utils.capitalizeEachWord
 
 @Composable
 fun HourlyWeatherItem(
     time: String,
-    temperature: String,
-    weatherIcon: Int
+    weatherIcon: Int,
+    weatherItem: WeatherForecast
 ) {
     Card(
         backgroundColor = Color.White,
@@ -31,11 +34,12 @@ fun HourlyWeatherItem(
                 .fillMaxWidth()
                 .padding(10.dp),
             horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(1.0f)
                     .padding(horizontal = 16.dp, vertical = 2.dp),
-                horizontalAlignment = Alignment.Start
+                horizontalAlignment = Alignment.Start,
             ) {
                 Text(
                     text = time,
@@ -49,13 +53,13 @@ fun HourlyWeatherItem(
                     WeatherItem(
                         icon = R.drawable.ic_humidity,
                         label = "Humidity",
-                        value = "40%",
+                        value = "${weatherItem.main.humidity} %",
                         modifier = Modifier.weight(1.0f)
                     )
                     WeatherItem(
                         icon = R.drawable.ic_wind_speed,
                         label = "Wind Speed",
-                        value = "3.75 km/h",
+                        value = "${weatherItem.wind.speed} km/h",
                         modifier = Modifier.weight(1.0f)
                     )
                 }
@@ -66,13 +70,13 @@ fun HourlyWeatherItem(
                     WeatherItem(
                         icon = R.drawable.ic_air_pressure,
                         label = "Air Pressure",
-                        value = "1019 hPa",
+                        value = "${weatherItem.main.pressure} hPa",
                         modifier = Modifier.weight(1.0f)
                     )
                     WeatherItem(
                         icon = R.drawable.ic_cloud_cover,
                         label = "Cloud Cover",
-                        value = "40%",
+                        value = "${weatherItem.clouds.all}%",
                         modifier = Modifier.weight(1.0f)
                     )
                 }
@@ -89,7 +93,13 @@ fun HourlyWeatherItem(
                         .height(60.dp)
                 )
                 Text(
-                    text = "$temperature/$temperature",
+                    text = weatherItem.weather[0].description.capitalizeEachWord(),
+                    color = Color.Gray,
+                    fontFamily = FontFamily.SansSerif,
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = "${weatherItem.main.temp} °C",
                     fontSize = 18.sp
                 )
             }

@@ -10,8 +10,8 @@ fun ResponseBody?.readError(): String? {
     return try {
         var returnStringError = ""
         val jsonObj = JSONObject(this.charStream().readText())
-        if (jsonObj.has("detail")) {
-            returnStringError = jsonObj.getString("detail")
+        if (jsonObj.has("message")) {
+            returnStringError = jsonObj.getString("message")
         } else {
             var errorCount = 0
             for (key in jsonObj.keys()) {

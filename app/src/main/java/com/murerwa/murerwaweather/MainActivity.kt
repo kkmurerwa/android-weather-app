@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.murerwa.murerwaweather.presentation.navigation.SetUpNavGraph
 import com.murerwa.murerwaweather.presentation.screens.home.WeatherViewModel
 import com.murerwa.murerwaweather.presentation.theme.MurerwaWeatherTheme
 import com.murerwa.murerwaweather.presentation.utils.UIState
@@ -21,13 +23,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MurerwaWeatherTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                val navController = rememberNavController()
+
+                SetUpNavGraph(navController = navController)
             }
         }
     }
@@ -40,7 +38,7 @@ fun Greeting(
 ) {
     Text(text = "Hello $name!")
 
-    viewModel.getCurrentWeather("Nairobi")
+//    viewModel.getCurrentWeather("Nairobi")
 
     when (val state = viewModel.currentWeatherResponse.value) {
         is UIState.Success -> {
@@ -54,7 +52,7 @@ fun Greeting(
         }
     }
 
-    viewModel.getFiveDayForecast("Nairobi")
+//    viewModel.getFiveDayForecast("Nairobi")
 
     when (val fiveDayForecastState = viewModel.fiveDayForecastResponse.value) {
         is UIState.Success -> {

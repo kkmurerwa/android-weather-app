@@ -1,5 +1,6 @@
 package com.murerwa.murerwaweather.presentation.screens.home
 
+import android.icu.text.TimeZoneNames
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.murerwa.murerwaweather.domain.repository.WeatherRepository
 import com.murerwa.murerwaweather.presentation.utils.UIState
 import com.murerwa.murerwaweather.presentation.utils.convertToUIState
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class WeatherViewModel(
     private val weatherRepository: WeatherRepository
@@ -23,11 +25,18 @@ class WeatherViewModel(
     private val _fiveDayForecastResponse: MutableState<UIState<BaseResponse<WeatherForecast>>> = mutableStateOf(UIState.Loading)
     val fiveDayForecastResponse = _fiveDayForecastResponse
 
+    init {
+//        getCurrentWeather("Nairobi")
+    }
+
     fun getCurrentWeather(searchQuery: String) = viewModelScope.launch {
         _currentWeatherResponse.value = UIState.Loading
+
         val response = weatherRepository.getWeatherByCityName(searchQuery)
 
         _currentWeatherResponse.value = convertToUIState(response)
+
+        Timber.d("Current weather response is ${_currentWeatherResponse.value}")
     }
 
     fun getFiveDayForecast(searchQuery: String) = viewModelScope.launch {

@@ -12,3 +12,7 @@ fun String.capitalizeString(): String {
 fun Number.commaSeparated(): String {
     return NumberFormat.getNumberInstance(Locale.US).format(this)
 }
+
+fun Number.toDegrees(): String {
+    return "${this.toInt()}°"
+}

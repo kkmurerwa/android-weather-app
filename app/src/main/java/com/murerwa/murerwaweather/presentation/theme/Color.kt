@@ -1,4 +1,4 @@
-package com.murerwa.murerwaweather.ui.theme
+package com.murerwa.murerwaweather.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

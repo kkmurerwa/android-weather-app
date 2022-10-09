@@ -170,6 +170,12 @@ fun HomeScreen(
             }
             is UIState.Success -> {
                 val currentWeather = weatherState.value
+                val mainWeather = currentWeather.weather[0].main
+                val currentDate = Calendar.getInstance().time
+
+                val isCurrentlyNight = currentDate.isNight()
+
+                bgColorState.value = mainWeather.getSuitableColor()
 
                 Column(
                     modifier = Modifier.fillMaxSize()
@@ -179,7 +185,7 @@ fun HomeScreen(
                 ) {
                     Spacer(modifier = Modifier.height(18.dp))
                     Image(
-                        painter = painterResource(id = R.drawable.ic_partly_cloudy),
+                        painter = painterResource(id = mainWeather.getSuitableDrawable(isCurrentlyNight)),
                         contentDescription = "Weather Icon",
                         modifier = Modifier
                             .width(140.dp)
@@ -276,9 +282,12 @@ fun HomeScreen(
                                 for (item in todayForecast!!) {
                                     val currentDate = item.dt_txt.convertToDate()
 
+                                    val currentMainWeather = item.weather[0].main
+                                    val isNight = currentDate.isNight()
+
                                     HourlyWeatherItem(
                                         time = currentDate.convertToString("HH:mm a"),
-                                        weatherIcon = R.drawable.ic_partly_cloudy,
+                                        weatherIcon = currentMainWeather.getSuitableDrawable(isNight),
                                         weatherItem = item
                                     )
                                     Spacer(modifier = Modifier.height(10.dp))

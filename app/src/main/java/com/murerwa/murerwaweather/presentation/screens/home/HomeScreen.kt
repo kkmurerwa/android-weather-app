@@ -164,172 +164,171 @@ fun HomeScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
-        when (weatherState) {
-            is UIState.Loading -> {
-                CircularProgressIndicator()
-            }
-            is UIState.Success -> {
-                val currentWeather = weatherState.value
-                val mainWeather = currentWeather.weather[0].main
-                val currentDate = Calendar.getInstance().time
+            when (weatherState) {
+                is UIState.Loading -> {
+                    CircularProgressIndicator()
+                }
+                is UIState.Success -> {
+                    val currentWeather = weatherState.value
+                    val mainWeather = currentWeather.weather[0].main
+                    val currentDate = Calendar.getInstance().time
 
-                val isCurrentlyNight = currentDate.isNight()
+                    val isCurrentlyNight = currentDate.isNight()
 
-                bgColorState.value = mainWeather.getSuitableColor()
+                    bgColorState.value = mainWeather.getSuitableColor()
 
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                        .padding(10.dp)
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(18.dp))
-                    Image(
-                        painter = painterResource(id = mainWeather.getSuitableDrawable(isCurrentlyNight)),
-                        contentDescription = "Weather Icon",
-                        modifier = Modifier
-                            .width(140.dp)
-                            .height(140.dp)
-                    )
-                    Text(
-                        text = currentWeather.weather[0].main,
-                        color = Color.Black,
-                        modifier = Modifier.padding(top = 15.dp),
-                        fontSize = 20.sp,
-                    )
-                    Text(
-                        text = currentWeather.main.temp.toDegrees(),
-                        color = Color.Black,
-                        modifier = Modifier.padding(5.dp),
-                        fontSize = 100.sp,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.Serif
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                            .padding(10.dp)
+                            .verticalScroll(rememberScrollState()),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        Spacer(modifier = Modifier.height(18.dp))
                         Image(
-                            painter = painterResource(id = R.drawable.ic_wind_speed),
-                            contentDescription = "Wind speed Icon",
+                            painter = painterResource(id = mainWeather.getSuitableDrawable(isCurrentlyNight)),
+                            contentDescription = "Weather Icon",
                             modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
+                                .width(140.dp)
+                                .height(140.dp)
                         )
                         Text(
-                            text = "${currentWeather.wind.speed} km/h",
+                            text = currentWeather.weather[0].main,
                             color = Color.Black,
-                            modifier = Modifier.padding(5.dp),
-                            fontSize = 16.sp,
-                        )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_humidity),
-                            contentDescription = "Humidity Icon",
-                            modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
+                            modifier = Modifier.padding(top = 15.dp),
+                            fontSize = 20.sp,
                         )
                         Text(
-                            text = "${currentWeather.main.humidity}%",
+                            text = currentWeather.main.temp.toDegrees(),
                             color = Color.Black,
                             modifier = Modifier.padding(5.dp),
-                            fontSize = 16.sp,
+                            fontSize = 100.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Serif
                         )
-                        Spacer(modifier = Modifier.width(15.dp))
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_temperature),
-                            contentDescription = "Temperature Icon",
-                            modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                        )
-                        Text(
-                            text = "Feels Like ${currentWeather.main.feels_like}°c",
-                            color = Color.Black,
-                            modifier = Modifier.padding(5.dp),
-                            fontSize = 15.sp,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    ScrollableTabRow(
-                        selectedTabIndex = 0,
-                        backgroundColor = Color.Transparent,
-                        edgePadding = 0.dp,
-                        divider = {},
-                        indicator = {}
-                    ) {
-                        when (fiveDayForecastState) {
-                            is UIState.Loading -> {}
-                            is UIState.Success -> {
-                                days.forEach { date ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_wind_speed),
+                                contentDescription = "Wind speed Icon",
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Text(
+                                text = "${currentWeather.wind.speed} km/h",
+                                color = Color.Black,
+                                modifier = Modifier.padding(5.dp),
+                                fontSize = 16.sp,
+                            )
+                            Spacer(modifier = Modifier.width(15.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_humidity),
+                                contentDescription = "Humidity Icon",
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Text(
+                                text = "${currentWeather.main.humidity}%",
+                                color = Color.Black,
+                                modifier = Modifier.padding(5.dp),
+                                fontSize = 16.sp,
+                            )
+                            Spacer(modifier = Modifier.width(15.dp))
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_temperature),
+                                contentDescription = "Temperature Icon",
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                            )
+                            Text(
+                                text = "Feels Like ${currentWeather.main.feels_like.toDegrees()}c",
+                                color = Color.Black,
+                                modifier = Modifier.padding(5.dp),
+                                fontSize = 15.sp,
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(18.dp))
+                        ScrollableTabRow(
+                            selectedTabIndex = 0,
+                            backgroundColor = Color.Transparent,
+                            edgePadding = 0.dp,
+                            divider = {},
+                            indicator = {}
+                        ) {
+                            when (fiveDayForecastState) {
+                                is UIState.Loading -> {}
+                                is UIState.Success -> {
+                                    days.forEach { date ->
 
-                                    val isSelected = selectedDate.value == date
+                                        val isSelected = selectedDate.value == date
 
-                                    Tab(
-                                        selected = isSelected,
-                                        onClick = {
-                                            selectedDate.value = date
-                                        },
-                                        modifier = Modifier.padding(5.dp)
-                                    ) {
-                                        DayChip(
-                                            day = date.convertToDate("dd-MM-yyyy").getDateString(),
-                                            isSelected = isSelected
-                                        )
+                                        Tab(
+                                            selected = isSelected,
+                                            onClick = {
+                                                selectedDate.value = date
+                                            },
+                                            modifier = Modifier.padding(5.dp)
+                                        ) {
+                                            DayChip(
+                                                day = date.convertToDate("dd-MM-yyyy").getDateString(),
+                                                isSelected = isSelected
+                                            )
+                                        }
                                     }
                                 }
+                                is UIState.Error -> {}
                             }
-                            is UIState.Error -> {}
                         }
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Column {
-                        when (fiveDayForecastState) {
-                            is UIState.Loading -> {}
-                            is UIState.Success -> {
-                                val todayForecast = forecastsByDay[selectedDate.value]
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Column {
+                            when (fiveDayForecastState) {
+                                is UIState.Loading -> {}
+                                is UIState.Success -> {
+                                    val todayForecast = forecastsByDay[selectedDate.value]
 
-                                for (item in todayForecast!!) {
-                                    val currentDate = item.dt_txt.convertToDate()
+                                    for (item in todayForecast!!) {
+                                        val currentDate = item.dt_txt.convertToDate()
 
-                                    val currentMainWeather = item.weather[0].main
-                                    val isNight = currentDate.isNight()
+                                        val currentMainWeather = item.weather[0].main
+                                        val isNight = currentDate.isNight()
 
-                                    HourlyWeatherItem(
-                                        time = currentDate.convertToString("HH:mm a"),
-                                        weatherIcon = currentMainWeather.getSuitableDrawable(isNight),
-                                        weatherItem = item
+                                        HourlyWeatherItem(
+                                            time = currentDate.convertToString("HH:mm a"),
+                                            weatherIcon = currentMainWeather.getSuitableDrawable(isNight),
+                                            weatherItem = item
+                                        )
+                                        Spacer(modifier = Modifier.height(10.dp))
+                                    }
+                                }
+                                is UIState.Error -> {
+                                    Text(
+                                        text = fiveDayForecastState.errorMessage ?: "Error",
+                                        color = Color.Red,
+                                        modifier = Modifier.padding(5.dp),
+                                        fontSize = 16.sp,
                                     )
-                                    Spacer(modifier = Modifier.height(10.dp))
                                 }
                             }
-                            is UIState.Error -> {
-                                Text(
-                                    text = fiveDayForecastState.errorMessage ?: "Error",
-                                    color = Color.Red,
-                                    modifier = Modifier.padding(5.dp),
-                                    fontSize = 16.sp,
-                                )
-                            }
                         }
                     }
                 }
-            }
-            is UIState.Error -> {
-                if (weatherState.isNetworkError) {
-                    ErrorScreen(
-                        message = "We encountered a network error. " +
-                                "Please check your internet connection and try again.",
-                        imageDrawable = R.drawable.ic_error_internet
-                    )
-                } else {
-                    ErrorScreen(message = "Sorry. Something went wrong while loading the data.")
+                is UIState.Error -> {
+                    if (weatherState.isNetworkError) {
+                        ErrorScreen(
+                            message = "We encountered a network error. " +
+                                    "Please check your internet connection and try again.",
+                            imageDrawable = R.drawable.ic_error_internet
+                        )
+                    } else {
+                        ErrorScreen(message = "Sorry. Something went wrong while loading the data.")
+                    }
                 }
             }
-        }
-
         }
     }
 }

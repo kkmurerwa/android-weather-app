@@ -10,34 +10,23 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String.getYear() = this.substring(0, 4)
-
 fun String.capitalizeString(): String {
     return this.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-}
-
-fun Number.commaSeparated(): String {
-    return NumberFormat.getNumberInstance(Locale.US).format(this)
-}
-
-fun Number.toDegrees(): String {
-    return "${this.toInt()}°"
 }
 
 fun Date.convertToString(format: String, locale: Locale = Locale.getDefault()): String {
     val formatter = SimpleDateFormat(format, locale)
     return formatter.format(this)
 }
+
+fun Number.toDegrees(): String {
+    return "${this.toInt()}°"
+}
+
 fun String.convertToDate(format: String = "yyyy-MM-dd HH:mm:ss", locale: Locale = Locale.getDefault()): Date {
     val formatter = SimpleDateFormat(format, locale)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter.parse(this)!!
-}
-
-fun Long.convertToDate(): Date {
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = this * 1000
-    return calendar.time
 }
 
 fun String.capitalizeEachWord(): String {

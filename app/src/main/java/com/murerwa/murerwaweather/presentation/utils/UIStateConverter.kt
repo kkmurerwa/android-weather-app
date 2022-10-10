@@ -11,7 +11,7 @@ fun <T> convertToUIState(response: NetworkResult<T>): UIState<T> {
         }
         is NetworkResult.Failure -> {
             if (response.isNetworkError) {
-                UIState.Error("Network error")
+                UIState.Error(errorMessage = "Network error", isNetworkError = true)
             } else {
                 if (response.errorBody != null) {
                     Timber.d("Response is Not Null")

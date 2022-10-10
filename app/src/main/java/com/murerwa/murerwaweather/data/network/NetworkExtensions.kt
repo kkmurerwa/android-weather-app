@@ -8,20 +8,12 @@ import java.util.*
 fun ResponseBody?.readError(): String? {
     if (this == null) return null
     return try {
-        var returnStringError = ""
+        val returnStringError: String
         val jsonObj = JSONObject(this.charStream().readText())
-        if (jsonObj.has("message")) {
-            returnStringError = jsonObj.getString("message")
+        returnStringError = if (jsonObj.has("message")) {
+            jsonObj.getString("message")
         } else {
-            var errorCount = 0
-            for (key in jsonObj.keys()) {
-                val childArray = jsonObj.getJSONArray(key)
-                for (i in 0 until childArray.length()) {
-                    errorCount++
-                    returnStringError =
-                        returnStringError + "$errorCount. " + (childArray[i] as String).capitalizeString() + "\n"
-                }
-            }
+            jsonObj.toString()
         }
         returnStringError.trim()
     } catch (_: Exception) {
